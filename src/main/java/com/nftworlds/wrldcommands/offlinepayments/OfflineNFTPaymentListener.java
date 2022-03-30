@@ -12,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class OfflineNFTPaymentListener implements Listener {
     private final Map<UUID, OfflineNFTPlayer> offlineNFTPlayers = new HashMap<>();
@@ -40,7 +41,16 @@ public class OfflineNFTPaymentListener implements Listener {
             return;
 
         removeUser(nftPlayer);
-        payOfflineNFTPlayer(nftPlayer);
+
+        // Running task later for 2 reasons
+        // 1.) So the "isInConfig" check happens after player gets removed
+        // 2.) So the messages get sent to the user on login properly
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                payOfflineNFTPlayer(nftPlayer);
+            }
+        }.runTaskLater(WRLDPaymentsCommands.getInstance(), 20L);
     }
 
     private void payOfflineNFTPlayer(OfflineNFTPlayer nftPlayer) {
