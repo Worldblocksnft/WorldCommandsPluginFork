@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.nftworlds.wallet.objects.Network;
 import com.nftworlds.wrldcommands.WRLDPaymentsCommands;
+import com.nftworlds.wrldcommands.util.PaymentUtil;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -39,8 +39,8 @@ public class OfflineNFTPaymentListener implements Listener {
         if (nftPlayer == null)
             return;
 
-        payOfflineNFTPlayer(nftPlayer);
         removeUser(nftPlayer);
+        payOfflineNFTPlayer(nftPlayer);
     }
 
     private void payOfflineNFTPlayer(OfflineNFTPlayer nftPlayer) {
@@ -48,8 +48,7 @@ public class OfflineNFTPaymentListener implements Listener {
         double amount = nftPlayer.getPayAmount();
         String reason = nftPlayer.getPayReason();
 
-        WRLDPaymentsCommands.getPayments().getNFTPlayer(uuid).getPrimaryWallet().payWRLD(amount, Network.POLYGON,
-                reason.toString());
+        PaymentUtil.payPlayer(uuid, amount, reason);
     }
 
     private void removeUser(OfflineNFTPlayer nftPlayer) {
@@ -57,7 +56,10 @@ public class OfflineNFTPaymentListener implements Listener {
 
         if (offlineNFTPlayers.containsKey(uuid)) {
             offlineNFTPlayers.remove(uuid);
-            WRLDPaymentsCommands.getInstance().getConfigManager().removeOfflinePlayer(nftPlayer);
+
+            // Only removing from file IF their wallet is linked
+            if (PaymentUtil.isWalletLinked(uuid))
+                WRLDPaymentsCommands.getInstance().getConfigManager().removeOfflinePlayer(nftPlayer);
         }
     }
 }

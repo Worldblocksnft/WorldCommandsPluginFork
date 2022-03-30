@@ -24,8 +24,17 @@ public class ConfigManager {
         config = plugin.getConfig();
     }
 
+    public boolean isInConfig(UUID uuid) {
+        return getOfflineNFTPlayer(uuid) != null;
+    }
+
     public OfflineNFTPlayer getOfflineNFTPlayer(UUID uuid) {
-        for (String user : getOfflinePlayers()) {
+        List<String> offlinePlayerList = getOfflinePlayers();
+
+        if (offlinePlayerList.isEmpty() || offlinePlayerList == null)
+            return null;
+
+        for (String user : offlinePlayerList) {
             String[] args = user.split(":");
             String offlineUuidString = args[0];
 
