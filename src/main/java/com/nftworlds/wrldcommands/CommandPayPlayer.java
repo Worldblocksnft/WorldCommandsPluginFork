@@ -28,7 +28,7 @@ public class CommandPayPlayer implements CommandExecutor {
             reason.append(" ").append(args[i]);
         }
 
-        PaymentUtil.payPlayer(uuid, amount, reason.toString());
+        PaymentUtil.payPlayerWithChecks(uuid, amount, reason.toString());
         sender.sendMessage(ChatColor.GREEN + "Attempting to pay " + args[0] + " " + amount + " $WRLD!");
         return true;
     }

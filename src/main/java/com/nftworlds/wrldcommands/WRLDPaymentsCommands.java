@@ -1,6 +1,7 @@
 package com.nftworlds.wrldcommands;
 
 import com.nftworlds.wallet.api.WalletAPI;
+import com.nftworlds.wrldcommands.menus.HelpMenu;
 import com.nftworlds.wrldcommands.offlinepayments.ConfigManager;
 import com.nftworlds.wrldcommands.offlinepayments.OfflineNFTPaymentListener;
 
@@ -40,5 +41,6 @@ public class WRLDPaymentsCommands extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OfflineNFTPaymentListener(), this);
 
         getServer().getLogger().info("NFT Worlds WRLD Payments Commands enabled!");
+        HelpMenu.registerCommand();
     }
 }

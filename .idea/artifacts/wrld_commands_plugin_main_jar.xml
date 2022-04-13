@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="wrld-commands-plugin-main:jar">
+    <output-path>$PROJECT_DIR$/..</output-path>
+    <root id="archive" name="wrld-commands-plugin-main.jar">
+      <element id="module-output" name="wrld-commands-plugin-main" />
+    </root>
+  </artifact>
+</component>

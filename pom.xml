@@ -21,6 +21,10 @@
             <id>worldql-partners</id>
             <url>https://maven.worldql.com/releases</url>
         </repository>
+        <repository>
+            <id>luck-repo</id>
+            <url>https://repo.lucko.me/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -37,6 +41,12 @@
             <version>0.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>me.lucko</groupId>
+            <artifactId>helper</artifactId>
+            <version>5.6.9</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -2,6 +2,7 @@ package com.nftworlds.wrldcommands.offlinepayments;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,7 +32,7 @@ public class ConfigManager {
     public OfflineNFTPlayer getOfflineNFTPlayer(UUID uuid) {
         List<String> offlinePlayerList = getOfflinePlayers();
 
-        if (offlinePlayerList.isEmpty() || offlinePlayerList == null)
+        if (offlinePlayerList.isEmpty())
             return null;
 
         for (String user : offlinePlayerList) {
@@ -58,6 +59,21 @@ public class ConfigManager {
     }
 
     /**
+     * Stores offline players to config, this has to exist
+     * because if a list of players need to be rewarded at once,
+     * the config shouldn't be updated more than once
+     */
+    public void addOfflinePlayers(Map<UUID, Double> players, String reason) {
+        List<String> offlinePlayers = getOfflinePlayers();
+
+        players.forEach((uuid, amount) -> {
+            offlinePlayers.add(uuid.toString() + ":" + amount + ":" + reason);
+        });
+
+        setConfigList(offlinePlayers);
+    }
+
+    /**
      * Removes user from config list
      */
     public void removeOfflinePlayer(OfflineNFTPlayer player) {
@@ -73,10 +89,10 @@ public class ConfigManager {
     /**
      * Getting players that should be paid
      */
-    private final List<String> getOfflinePlayers() {
+    private List<String> getOfflinePlayers() {
         List<String> offlinePlayers = config.getStringList(SECTION);
 
-        if (offlinePlayers.isEmpty() || offlinePlayers == null)
+        if (offlinePlayers.isEmpty())
             return new ArrayList<>();
 
         return config.getStringList(SECTION);

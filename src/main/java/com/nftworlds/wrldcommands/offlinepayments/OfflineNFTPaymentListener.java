@@ -58,7 +58,7 @@ public class OfflineNFTPaymentListener implements Listener {
         double amount = nftPlayer.getPayAmount();
         String reason = nftPlayer.getPayReason();
 
-        PaymentUtil.payPlayer(uuid, amount, reason);
+        PaymentUtil.payPlayerWithChecks(uuid, amount, reason);
     }
 
     private void removeUser(OfflineNFTPlayer nftPlayer) {
